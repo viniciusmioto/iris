@@ -9,8 +9,7 @@ Load "game.abk"
 ' 3. Initialize Variables
 EREBUS_X = 20
 EREBUS_Y = 10
-EREBUS_SPPED = 6
-EREBUS_DX = 4
+EREBUS_DX = 1
 
 IRIS_X = 550
 IRIS_Y = 10
@@ -24,34 +23,34 @@ Do
    ' Read Keyboard Controls (W/S/A/D or Arrow Keys)
    ' A Key ($1E) or Left Arrow ($70)
    If Key State($1E)
-      EREBUS_X = EREBUS_X - EREBUS_SPPED
+      EREBUS_X = EREBUS_X - EREBUS_DX
    End If
    If Key State($70)
-      EREBUS_X = EREBUS_X - EREBUS_SPPED
+      EREBUS_X = EREBUS_X - EREBUS_DX
    End If
 
    ' D Key ($20) or Right Arrow ($71)
    If Key State($20)
-      EREBUS_X = EREBUS_X + EREBUS_SPPED
+      EREBUS_X = EREBUS_X + EREBUS_DX
    End If
    If Key State($71)
-      EREBUS_X = EREBUS_X + EREBUS_SPPED
+      EREBUS_X = EREBUS_X + EREBUS_DX
    End If
 
    ' W Key ($11) or Up Arrow ($6E)
    If Key State($11)
-      EREBUS_Y = EREBUS_Y - EREBUS_SPPED
+      EREBUS_Y = EREBUS_Y - EREBUS_DX
    End If
    If Key State($6E)
-      EREBUS_Y = EREBUS_Y - EREBUS_SPPED
+      EREBUS_Y = EREBUS_Y - EREBUS_DX
    End If
 
    ' S Key ($1F) or Down Arrow ($73)
    If Key State($1F)
-      EREBUS_Y = EREBUS_Y + PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y + EREBUS_DX
    End If
    If Key State($73)
-      EREBUS_Y = EREBUS_Y + PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y + EREBUS_DX
    End If
    
    
