@@ -7,9 +7,13 @@ Paper 0 : Cls
 Load "game.abk"
 
 ' 3. Initialize Variables
-PLAYER_X = 100
-PLAYER_Y = 150
-PLAYER_SPEED = 6
+EREBUS_X = 20
+EREBUS_Y = 10
+EREBUS_SPPED = 6
+EREBUS_DX = 4
+
+IRIS_X = 550
+IRIS_Y = 10
 
 ' Spawn the Fruit
 FRUIT_X = 300
@@ -20,77 +24,66 @@ Do
    ' Read Keyboard Controls (W/S/A/D or Arrow Keys)
    ' A Key ($1E) or Left Arrow ($70)
    If Key State($1E)
-      PLAYER_X = PLAYER_X - PLAYER_SPEED
+      EREBUS_X = EREBUS_X - EREBUS_SPPED
    End If
    If Key State($70)
-      PLAYER_X = PLAYER_X - PLAYER_SPEED
+      EREBUS_X = EREBUS_X - EREBUS_SPPED
    End If
 
    ' D Key ($20) or Right Arrow ($71)
    If Key State($20)
-      PLAYER_X = PLAYER_X + PLAYER_SPEED
+      EREBUS_X = EREBUS_X + EREBUS_SPPED
    End If
    If Key State($71)
-      PLAYER_X = PLAYER_X + PLAYER_SPEED
+      EREBUS_X = EREBUS_X + EREBUS_SPPED
    End If
 
    ' W Key ($11) or Up Arrow ($6E)
    If Key State($11)
-      PLAYER_Y = PLAYER_Y - PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y - EREBUS_SPPED
    End If
    If Key State($6E)
-      PLAYER_Y = PLAYER_Y - PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y - EREBUS_SPPED
    End If
 
    ' S Key ($1F) or Down Arrow ($73)
    If Key State($1F)
-      PLAYER_Y = PLAYER_Y + PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y + PLAYER_SPEED
    End If
    If Key State($73)
-      PLAYER_Y = PLAYER_Y + PLAYER_SPEED
+      EREBUS_Y = EREBUS_Y + PLAYER_SPEED
    End If
    
-   ' Clamp Player to Screen Boundary (assuming 16x16 sprite size)
-   If PLAYER_X < 10
-      PLAYER_X = 10
-   End If
-   If PLAYER_X > 570
-      PLAYER_X = 570
-   End If
-   If PLAYER_Y < 30
-      PLAYER_Y = 30
-   End If
-   If PLAYER_Y > 370
-      PLAYER_Y = 370
-   End If
+   
+   
+     EREBUS_X = EREBUS_X + EREBUS_DX
+     If EREBUS_X > IRIS_X - 10
+        EREBUS_DX = - EREBUS_DX
+     End If 
+
+    If EREBUS_X < 10
+       EREBUS_X = 10
+       EREBUS_DX = - EREBUS_DX
+    End If
+    
+   
    
    ' 5. Draw Sprites on Screen
    ' Draw Player (Sprite ID 1, using frame 0)
-   Sprite 0, PLAYER_X, PLAYER_Y, 0
+   Sprite 0, EREBUS_X, EREBUS_Y, 0
    
    ' Draw Fruit (Sprite ID 2, using frame 1)
-   Sprite 1, FRUIT_X, FRUIT_Y, 1
+   Sprite 1, IRIS_X, IRIS_Y, 1
 
    Sprite 2, 500, 100, 2
+
+
    
-   ' 6. Collision Detection (Overlap within 16 pixels)
-   ' Check if player and fruit overlap
-   If PLAYER_X > FRUIT_X - 16
-      If PLAYER_X < FRUIT_X + 16
-         If PLAYER_Y > FRUIT_Y - 16
-            If PLAYER_Y < FRUIT_Y + 16
-               ' Collision! Relocate Fruit inside boundaries
-               FRUIT_X = 10 + Rnd(560)
-               FRUIT_Y = 30 + Rnd(340)
-               
-               ' Play note 37 (middle C area) for 1 second as sound effect
-               Play 37, 1
-            End If
-         End If
-      End If
-   End If
    
    ' 7. Control Frame Rate (Ticks)
    ' Wait 2 ticks (~40ms) to keep controls responsive and smooth
    Wait 2
+
+
 Loop
+
