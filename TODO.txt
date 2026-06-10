@@ -7,3 +7,5 @@ Allow entering exact numbers in the sprite height and width boxes in the Pixel E
 When double clicking on a "pixel" the colour should revert to the previous colour
 When using "Sprite 4, 10, 10, 27" where 27 doesn't exist, the screen flickers
 Remove "Run Code" and have "Save .AMOS File" and rename "Save .ASC Code" into "Save .ASC File"
+Screen Open should limit the number of colour of Palette
+If two procedures have the same name, there should be a clear error message
