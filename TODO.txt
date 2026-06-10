@@ -1,0 +1,7 @@
+CRVJA
+-----
+
+When the sprite bank is "wrong", the screen flickers without error message
+Cannot use variable in Screen Open, like "Screen Open 1, TILE_SIZE * 24..."
+Allow entering exact numbers in the sprite height and width boxes in the Pixel Editor
+When double clicking on a "pixel" the colour should revert to the previous colour
