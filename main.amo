@@ -1,96 +1,107 @@
-'Tutorial: Catch the Fruit Game
-Screen Open 1, 600, 400, 8, Hires
-Curs Off
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'                   THE WORLD OF IRIS                    '
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+' ---> ReAnimate'26
+
+' Fabio Petrillo
+' Yann-Gaël Guéhéneuc
+' Peter Yefi
+' Vinicius Mioto
+
+
+ 
+Screen Open 1, 650, 650, 8, Hires
+Curs On
 Paper 0 : Cls
 
-' 2. Load Visual Assets
+' Load Visual Assets
 Load "game.abk"
 
-' 3. Initialize Variables
-PLAYER_X = 100
-PLAYER_Y = 150
-PLAYER_SPEED = 6
+Global HERO_X, HERO_Y, HERO_SPEED
+Global IRIS_X, IRIS_Y
+Global EREBUS_X,EREBUS_Y,EREBUS_DX,EREBUS_SPEED,EREBUS_ATTACKS
 
-' Spawn the Fruit
-FRUIT_X = 300
-FRUIT_Y = 200
+' Initialize Variables
+HERO_X = 300
+HERO_Y = 600
+HERO_SPEED = 5
 
-' 4. Main Game Loop
-Do
-   ' Read Keyboard Controls (W/S/A/D or Arrow Keys)
-   ' A Key ($1E) or Left Arrow ($70)
+IRIS_X = 600
+IRIS_Y = 10
+
+EREBUS_X = 10
+EREBUS_Y = 10
+EREBUS_DX = 1
+EREBUS_SPEED = 1
+EREBUS_ATTACKS = 0
+
+
+
+Ink 2
+Text 450,550,"EREBUS_ATTACKS"
+Ink 2
+Text 600,600,EREBUS_ATTACKS
+
+
+' ==========================================
+' HERO
+' ==========================================
+Procedure HERO_MOVEMENT
+  'Read Keyboard Controls (W/S/A/D or Arrow Keys)
+   ' A Key ($1E) - Left
    If Key State($1E)
-      PLAYER_X = PLAYER_X - PLAYER_SPEED
-   End If
-   If Key State($70)
-      PLAYER_X = PLAYER_X - PLAYER_SPEED
+      HERO_X = HERO_X - HERO_SPEED
    End If
 
-   ' D Key ($20) or Right Arrow ($71)
+   ' D Key ($20) - Right
    If Key State($20)
-      PLAYER_X = PLAYER_X + PLAYER_SPEED
-   End If
-   If Key State($71)
-      PLAYER_X = PLAYER_X + PLAYER_SPEED
+      HERO_X = HERO_X + HERO_SPEED
    End If
 
-   ' W Key ($11) or Up Arrow ($6E)
+   ' W Key ($11) - Up
    If Key State($11)
-      PLAYER_Y = PLAYER_Y - PLAYER_SPEED
-   End If
-   If Key State($6E)
-      PLAYER_Y = PLAYER_Y - PLAYER_SPEED
+      HERO_Y = HERO_Y - HERO_SPEED
    End If
 
-   ' S Key ($1F) or Down Arrow ($73)
+   ' S Key ($1F) - Down
    If Key State($1F)
-      PLAYER_Y = PLAYER_Y + PLAYER_SPEED
+      HERO_Y = HERO_Y + HERO_SPEED
    End If
-   If Key State($73)
-      PLAYER_Y = PLAYER_Y + PLAYER_SPEED
-   End If
-   
-   ' Clamp Player to Screen Boundary (assuming 16x16 sprite size)
-   If PLAYER_X < 10
-      PLAYER_X = 10
-   End If
-   If PLAYER_X > 570
-      PLAYER_X = 570
-   End If
-   If PLAYER_Y < 30
-      PLAYER_Y = 30
-   End If
-   If PLAYER_Y > 370
-      PLAYER_Y = 370
-   End If
-   
-   ' 5. Draw Sprites on Screen
-   ' Draw Player (Sprite ID 1, using frame 0)
-   Sprite 0, PLAYER_X, PLAYER_Y, 0
-   
-   ' Draw Fruit (Sprite ID 2, using frame 1)
-   Sprite 1, FRUIT_X, FRUIT_Y, 1
+End Proc
 
-   Sprite 2, 500, 100, 2
-   
-   ' 6. Collision Detection (Overlap within 16 pixels)
-   ' Check if player and fruit overlap
-   If PLAYER_X > FRUIT_X - 16
-      If PLAYER_X < FRUIT_X + 16
-         If PLAYER_Y > FRUIT_Y - 16
-            If PLAYER_Y < FRUIT_Y + 16
-               ' Collision! Relocate Fruit inside boundaries
-               FRUIT_X = 10 + Rnd(560)
-               FRUIT_Y = 30 + Rnd(340)
-               
-               ' Play note 37 (middle C area) for 1 second as sound effect
-               Play 37, 1
-            End If
-         End If
+
+
+' ==========================================
+' EREBUS
+' ==========================================
+Procedure EREBUS_MOVEMENT
+   EREBUS_X = EREBUS_X + (EREBUS_DX * EREBUS_SPEED)
+
+   If EREBUS_X > IRIS_X - 10
+      EREBUS_DX = - EREBUS_DX
+      EREBUS_ATTACKS = EREBUS_ATTACKS + 1
+      If EREBUS_SPEED < 5
+        EREBUS_SPEED = EREBUS_SPEED + EREBUS_ATTACKS
       End If
+   End If 
+
+   If EREBUS_X < 10
+      EREBUS_X = 10
+      EREBUS_DX = - EREBUS_DX
    End If
+End Proc
+
+' Main Game Loop
+Do  
+   HERO_MOVEMENT
+   EREBUS_MOVEMENT
    
-   ' 7. Control Frame Rate (Ticks)
-   ' Wait 2 ticks (~40ms) to keep controls responsive and smooth
-   Wait 2
+   
+   ' Draw Sprites on Screen
+   Sprite 0, IRIS_X, IRIS_Y, 0
+   Sprite 1, HERO_X, HERO_Y, 1
+   Sprite 2, EREBUS_X, EREBUS_Y, 2
+
+
 Loop
